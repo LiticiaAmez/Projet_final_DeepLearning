@@ -30,6 +30,12 @@ data = load_data()
 # Afficher les données récupérées
 print(data)
 
+
+
+
+
+
+
 #--------
 
 # Charger les données à partir du fichier CSV
@@ -37,28 +43,28 @@ print(data)
 # # Afficher les premières lignes pour vérification
 # print(df.head())
 
-#Compresser mon fichier CSV DPE en ZIP
-import pandas as pd
-import zipfile
+# #Compresser mon fichier CSV DPE en ZIP
+# import pandas as pd
+# import zipfile
 
-# Nom du fichier zip contenant le fichier CSV compressé
-zip_filename = "base_dpe.zip"
+# # Nom du fichier zip contenant le fichier CSV compressé
+# zip_filename = "base_dpe.zip"
 
-# Extraire le fichier CSV du zip
-with zipfile.ZipFile(zip_filename, "r") as zipf:
-    # Supposons que le fichier CSV soit nommé base_dpe.csv à l'intérieur du zip
-    csv_filename = zipf.namelist()[0]
-    zipf.extract(csv_filename)
+# # Extraire le fichier CSV du zip
+# with zipfile.ZipFile(zip_filename, "r") as zipf:
+#     # Supposons que le fichier CSV soit nommé base_dpe.csv à l'intérieur du zip
+#     csv_filename = zipf.namelist()[0]
+#     zipf.extract(csv_filename)
 
-# Renommer le fichier CSV extrait
-import os
-os.rename(csv_filename, "base_dpe.csv")
+# # Renommer le fichier CSV extrait
+# import os
+# os.rename(csv_filename, "base_dpe.csv")
 
-# Lire le fichier CSV renommé comme un DataFrame
-df = pd.read_csv("base_dpe.csv", delimiter=";", nrows=None)
+# # Lire le fichier CSV renommé comme un DataFrame
+# df = pd.read_csv("base_dpe.csv", delimiter=";", nrows=None)
 
-# Afficher les premières lignes pour vérification
-print(df.head())
+# # Afficher les premières lignes pour vérification
+# print(df.head())
 
 
 
