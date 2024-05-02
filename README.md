@@ -4,7 +4,7 @@
 
 ##Pour lancer l'application, exécutez la commande "streamlit run main.py"
 
-##Le fichier CSV "Base des diagnostics de performance énergétique (DPE) par commune (jusqu'en 2016)" récupéré est divisé en deux DataFrames : l'un pour la région Île-de-France et le deuxième pour toutes les autres régions qui sont hors Île-de-France.
+##Le fichier CSV "Base des diagnostics de performance énergétique (DPE) par commune (jusqu'en 2016) [base_dpe.csv]" récupéré est divisé en deux DataFrames car le fichier est trop volumineux : l'un pour la région Île-de-France et le deuxième pour toutes les autres régions qui sont hors Île-de-France(fait dans le notebook).
 
 ##Le fichier mis à disposition en open data comprend les variables suivantes:
 
