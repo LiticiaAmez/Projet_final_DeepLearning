@@ -2,7 +2,7 @@
 
 #AMEZIANE Liticia
 
-##Pour lancer l'application, exécutez la commande streamlit run main.py
+##Pour lancer l'application, exécutez la commande "streamlit run main.py"
 
 ##Le fichier CSV "Base des diagnostics de performance énergétique (DPE) par commune (jusqu'en 2016)" récupéré est divisé en deux DataFrames : l'un pour la région Île-de-France et le deuxième pour toutes les autres régions qui sont hors Île-de-France.
 
