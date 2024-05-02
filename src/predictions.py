@@ -46,7 +46,7 @@ def get_prediction_results(df_preprocessed, column_to_predict, num_rows=1000 ):
     # Sélection d'un sous-ensemble des données
     df_subset = df_preprocessed.head(num_rows)
     # Séparation des caractéristiques et de la cible
-    X = df_subset.drop(columns=['consommation_energie_finale', 'ville'])
+    X = df_subset.drop(columns=[column_to_predict, 'ville'])
     # Encodage one-hot des caractéristiques catégorielles
     X = pd.get_dummies(X, columns=['description_usage', 'description_energie', 'nom_methode_dpe'])
     y = df_subset[column_to_predict]
