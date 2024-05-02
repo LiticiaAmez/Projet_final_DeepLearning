@@ -165,7 +165,11 @@ def main():
         pred_viz(df_ileDeFrance_preprocessed, column_to_predict)
 
         st.subheader("Hors Île-de-France")
-        df_HorsIleDeFrance_preprocess= pd.read_csv("df_horsiledefrance_pret.csv")
+        df_HorsIleDeFrance_preprocess = pd.read_csv("df_horsiledefrance_pret.zip",
+                         
+                         compression='zip',
+                        index_col=None)
+        #df_HorsIleDeFrance_preprocess= pd.read_csv("df_horsiledefrance_pret.csv")
         df_HorsIleDeFrance_preprocess['code_postal'] = df_HorsIleDeFrance_preprocess['code_postal'].replace('17 000', '17000')
         pred_viz(df_HorsIleDeFrance_preprocess, column_to_predict)
 
