@@ -30,12 +30,6 @@ data = load_data()
 # Afficher les données récupérées
 print(data)
 
-
-
-
-
-
-
 #--------
 
 # Charger les données à partir du fichier CSV
@@ -43,7 +37,7 @@ print(data)
 # # Afficher les premières lignes pour vérification
 # print(df.head())
 
-# #Compresser mon fichier CSV DPE en ZIP
+#Compresser mon fichier CSV DPE en ZIP
 # import pandas as pd
 # import zipfile
 

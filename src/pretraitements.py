@@ -54,7 +54,7 @@ def preprocess_data(df_ileDeFrance, df_HorsIleDeFrance):
     
 
     # Remplacer les valeurs manquantes dans le DataFrame pour le reste de la France
-    df_HorsIleDeFrance['code_postal'].fillna('Inconnu', inplace=True)
+    #df_HorsIleDeFrance['code_postal'].fillna('Inconnu', inplace=True)
     df_HorsIleDeFrance['surface_habitale_en_m²'].fillna(-1, inplace=True)
     df_HorsIleDeFrance['ville'].fillna('Inconnu', inplace=True)
     df_HorsIleDeFrance.dropna(inplace=True)
@@ -69,4 +69,8 @@ def preprocess_data(df_ileDeFrance, df_HorsIleDeFrance):
     df_ileDeFrance = order_columns(df_ileDeFrance)
     df_HorsIleDeFrance = order_columns(df_HorsIleDeFrance)
 
+    df_HorsIleDeFrance.to_csv("df_horsiledefrance_pret.csv", index=False)
+   
     return df_ileDeFrance, df_HorsIleDeFrance
+    
+

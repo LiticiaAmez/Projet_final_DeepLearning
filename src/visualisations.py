@@ -13,7 +13,8 @@ def display_map(df):
 
     # Ajout des marqueurs pour Île-de-France
     for index, row in df.iterrows():
-        folium.Marker(location=[row['Latitude'], row['Longitude']], popup=row['ville']).add_to(map)
+        popup_text = f"Code postal: {row['code_postal']}, Consommation énergie finale: {row['consommation_energie_finale']}"
+        folium.Marker(location=[row['Latitude'], row['Longitude']], popup= popup_text).add_to(map)
     
     # Afficher la carte
     folium_static(map, width=900, height=600)

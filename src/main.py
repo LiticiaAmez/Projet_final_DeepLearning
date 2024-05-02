@@ -4,6 +4,8 @@ from get_data import load_data
 from pretraitements import preprocess_data
 import visualisations
 from visualisations import create_scatter_plot, create_histogram, create_interactive_bar_chart, stacked_bar_chart
+from predictions import get_prediction_results
+import folium
 
 def main():
     st.title("Application basée sur la base des diagnostics de performance énergétique (DPE) par commune en France")
@@ -20,14 +22,14 @@ def main():
 
     # Chargement des données depuis les fichiers CSV
     df_ileDeFrance = pd.read_csv("df_ileDeFrance.csv")
-    df_HorsIleDeFrance = pd.read_csv("df_horsiledefrance.csv")
+    df_HorsIleDeFrance = pd.read_csv("df_HorsIleDeFrance.csv")
 
     # Section de sélection des options générales
     section = st.sidebar.selectbox("Sélectionnez une section :", ["Données Brutes", "Données Prétraitées", "Visualisations", "Prédictions"])
 
     # Afficher la section sélectionnée
     if section == "Données Brutes":
-        st.subheader("Données Brutes de L'API : Diagnostics de performance énergétique (DPE) par commune en France")
+        st.subheader("Données Brutes de L'API")
         st.write(data)  # Afficher les données brutes
 
     elif section == "Données Prétraitées":
@@ -82,7 +84,8 @@ def main():
                 elif type_graphique == "Nuages de points":
                     fig = create_scatter_plot(df_ileDeFrance_preprocessed, x_column, y_column, y_function)
                     st.plotly_chart(fig)
-
+                
+        #selection de la region Hors Île-de-France   
         elif region_selection == "Hors Île-de-France":
             st.subheader("Visualisations pour la région Hors Île-de-France")
             type_graphe = st.sidebar.radio("Sélectionnez le type de graphe :", ["MAP", "Graphe à barre","Autres Graphes"])
@@ -111,7 +114,60 @@ def main():
                 elif type_graphique == "Nuages de points":
                     fig = create_scatter_plot(df_HorsIleDeFrance_preprocessed, x_column, y_column, y_function)
                     st.plotly_chart(fig)
+    
+    elif section == "Prédictions":
+    # Afficher les résultats de prédiction
+        st.subheader("Prédictions de la consommation d'énergie :")
 
+    #fonction pour afficher les predictions sur MAP
+        def pred_viz(df, column_to_predict):
+        # Obtenir les résultats de prédiction
+            prediction_results, loss = get_prediction_results(df,column_to_predict)
+            print(type(prediction_results))
+            y_pred_column = prediction_results['Valeur prédite']
+
+        # Afficher les résultats de prédiction
+            st.write(prediction_results)
+
+        # Afficher la perte (loss)
+            st.subheader("Perte (Loss)")
+            st.write("Perte (Loss) :", loss)
+
+            df = df.drop(columns=['consommation_energie_finale'])
+            df['Consommation_totale_predit'] = y_pred_column
+
+            df= df.head(1000)
+
+            st.subheader('Visualisation des prédictions des consomations totals par commune')
+            m = folium.Map(location=[48.8566, 2.3522], zoom_start=5)
+        # Ajouter des marqueurs pour chaque station
+            for index, row in df.iterrows():
+                popup_text = f"Code postal: {row['code_postal']}, Consommation_totale_predit: {row['Consommation_totale_predit']}"
+                folium.Marker(location=[row['Latitude'], row['Longitude']], popup= popup_text).add_to(m)
+        # Convertir la carte en HTML
+            m_html = m.get_root().render()
+        # Afficher la carte dans Streamlit
+            st.components.v1.html(m_html, width=800, height=600)
+
+        #Ajout d'un selectbox pour selectionner la valeur à prédire
+        column_name_mapping = {
+         "Consommation pour tous usages": "consommation_energie",
+         "Consommation pour l'usage (chauffage) ": "consommation_energie_finale" 
+         
+        }
+        column_to_predict_display = st.selectbox("Sélectionner la colonne à prédire", list(column_name_mapping.keys()))
+        column_to_predict = column_name_mapping[column_to_predict_display]
+        
+
+        #Faire appel a la fonction pred_viz avc les deux dataframes
+        st.subheader("Île-de-France")
+        df_ileDeFrance_preprocessed, _ = preprocess_data(df_ileDeFrance, df_HorsIleDeFrance)
+        pred_viz(df_ileDeFrance_preprocessed, column_to_predict)
+
+        st.subheader("Hors Île-de-France")
+        df_HorsIleDeFrance_preprocess= pd.read_csv("df_horsiledefrance_pret.csv")
+        df_HorsIleDeFrance_preprocess['code_postal'] = df_HorsIleDeFrance_preprocess['code_postal'].replace('17 000', '17000')
+        pred_viz(df_HorsIleDeFrance_preprocess, column_to_predict)
 
 
 
